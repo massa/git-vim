@@ -13,6 +13,7 @@ nnoremap <Leader>gl :GitLog<Enter>
 nnoremap <Leader>ga :GitAdd<Enter>
 nnoremap <Leader>gA :GitAdd <cfile><Enter>
 nnoremap <Leader>gc :GitCommit<Enter>
+nnoremap <Leader>gb :GitBlame<Enter>
 
 " Ensure b:git_dir exists.
 function! s:GetGitDir()
@@ -93,6 +94,13 @@ function! s:RefreshGitStatus()
     let pos_save = getpos('.')
     GitStatus
     call setpos('.', pos_save)
+endfunction
+
+" Show Log.
+function! GitBlame()
+    let git_output = system('git blame -- ' . s:Expand('%'))
+    call <SID>OpenGitBuffer(git_output)
+    setlocal filetype=git-blame
 endfunction
 
 " Show Log.
@@ -236,3 +244,4 @@ command! -nargs=1 GitCatFile          call GitCatFile(<q-args>)
 command! -nargs=+ Git                 call GitDoCommand(<q-args>)
 command!          GitVimDiffMerge     call GitVimDiffMerge()
 command!          GitVimDiffMergeDone call GitVimDiffMergeDone()
+command!          GitBlame            call GitBlame()
