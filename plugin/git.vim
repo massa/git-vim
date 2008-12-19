@@ -14,13 +14,13 @@ nnoremap <Leader>ga :GitAdd<Enter>
 nnoremap <Leader>gA :GitAdd <cfile><Enter>
 nnoremap <Leader>gc :GitCommit<Enter>
 nnoremap <Leader>gp :GitPush<Enter>
+nnoremap <Leader>gb :GitBlame<Enter>
 
 " Pushes the repository to an external server
 function! GitPush(args)
     let git_output = system('git push ' . a:args . ' -- ')
 	echo git_output
 endfunction
-
 
 " Ensure b:git_dir exists.
 function! s:GetGitDir()
@@ -101,6 +101,13 @@ function! s:RefreshGitStatus()
     let pos_save = getpos('.')
     GitStatus
     call setpos('.', pos_save)
+endfunction
+
+" Show Log.
+function! GitBlame()
+    let git_output = system('git blame -- ' . s:Expand('%'))
+    call <SID>OpenGitBuffer(git_output)
+    setlocal filetype=git-blame
 endfunction
 
 " Show Log.
@@ -245,3 +252,4 @@ command! -nargs=+ Git                 call GitDoCommand(<q-args>)
 command!          GitVimDiffMerge     call GitVimDiffMerge()
 command!          GitVimDiffMergeDone call GitVimDiffMergeDone()
 command! -nargs=? GitPush             call GitPush(<q-args>)
+command!          GitBlame            call GitBlame()
