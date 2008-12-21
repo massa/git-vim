@@ -244,7 +244,7 @@ endfunction
 command! -nargs=1 -complete=customlist,ListGitCommits GitCheckout call GitCheckout(<q-args>)
 command! -nargs=* -complete=customlist,ListGitCommits GitDiff     call GitDiff(<q-args>)
 command!          GitStatus           call GitStatus()
-command! -nargs=? GitAdd              call GitAdd(<q-args>)
+command! -nargs=? -complete=file GitAdd              call GitAdd(<q-args>)
 command! -nargs=* GitLog              call GitLog(<q-args>)
 command! -nargs=* GitCommit           call GitCommit(<q-args>)
 command! -nargs=1 GitCatFile          call GitCatFile(<q-args>)
